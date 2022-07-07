@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import React, { useState, useEffect } from "react";
+import { getData } from "./fetch/fetchFunc";
+import { useDispatch, useSelector } from "react-redux";
+import { setSports, setEsports } from "./redux/categoriesSlice";
+import Sidebar from "./components/Sidebar";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const eSports = useSelector((state) => state.categories.eSports);
+  const sports = useSelector((state) => state.categories.sports);
+  const [showSidebar, setShowSidebar] = useState(false);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    getData((data) => {
+      dispatch(setEsports(data.data));
+      dispatch(setSports(data.data));
+    });
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (
+      sports.lvl1 &&
+      sports.lvl2 &&
+      sports.lvl3 &&
+      eSports.lvl1 &&
+      eSports.lvl2 &&
+      eSports.lvl3
+    ) {
+      setShowSidebar(true);
+    }
+  }, [sports, eSports]);
+
+  return <div className="App">{showSidebar && <Sidebar />}</div>;
 }
 
 export default App;
