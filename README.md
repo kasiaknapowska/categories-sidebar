@@ -1,6 +1,6 @@
 # CATEGORIES SIDEBAR
 
-This project is a solution for SB Betting Software recruitment task.
+This project is a solution for recruitment task.
 
 ## Task description
 
